@@ -13,7 +13,12 @@ const createCustomer = asyncHandler(async (req, res) => {
     res.status(400);
     throw new Error("All fields are mandatory");
   }
-  res.status(201).json({ message: "Create Customer" });
+  const customer = await Customer.create({
+    name,
+    email,
+    phone,
+  });
+  res.status(201).json(customer);
 });
 
 const getOneCustomer = asyncHandler(async (req, res) => {
