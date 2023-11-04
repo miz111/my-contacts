@@ -31,9 +31,18 @@ const getOneCustomer = asyncHandler(async (req, res) => {
 });
 
 const updateCustomer = asyncHandler(async (req, res) => {
-  res
-    .status(200)
-    .json({ message: `Update Customer with ID: ${req.params.id}` });
+  const customer = await Customer.findById(req.params.id);
+  if (!customer) {
+    res.status(404);
+    throw new Error("Customer Not found");
+  }
+
+  const updatedCustomer = await Customer.findByIdAndUpdate(
+    req.params.id,
+    req.body,
+    { new: true }
+  );
+  res.status(200).json(updatedCustomer);
 });
 
 const deleteCustomer = asyncHandler(async (req, res) => {
