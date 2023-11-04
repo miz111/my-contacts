@@ -1,7 +1,9 @@
 const asyncHandler = require("express-async-handler");
+const Customer = require("../models/customerModel");
 
 const getCustomers = asyncHandler(async (req, res) => {
-  res.status(200).json({ message: "Get all customers" });
+  const customers = await Customer.find();
+  res.status(200).json(customers);
 });
 
 const createCustomer = asyncHandler(async (req, res) => {
