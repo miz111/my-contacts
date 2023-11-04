@@ -46,9 +46,15 @@ const updateCustomer = asyncHandler(async (req, res) => {
 });
 
 const deleteCustomer = asyncHandler(async (req, res) => {
-  res
-    .status(200)
-    .json({ message: `Delete Customer with ID:  ${req.params.id}` });
+  const customer = await Customer.findById(req.params.id);
+  if (!customer) {
+    res.status(404);
+    throw new Error("Customer Not found");
+  }
+  console.log("before");
+  await Customer.deleteOne();
+  console.log("after");
+  res.status(200).json(customer);
 });
 
 module.exports = {
